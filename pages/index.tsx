@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { Container, Box, Typography, Button, TextField } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import image from '../public/images/logo.png';
 import Image from 'next/image';
@@ -19,23 +19,27 @@ import {
   Settings,
   Logout,
   Add,
+  Search,
+  Link,
+  PersonOutlined,
+  AddAlertOutlined,
 } from '@mui/icons-material';
 
-const url = `https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=a4850c5e5b7c9f5832a284d1bd12deea`;
+// const url = `https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=a4850c5e5b7c9f5832a284d1bd12deea`;
 
-async function getLocation() {
-  try {
-    const response = await axios.get(url);
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-}
+// async function getLocation() {
+//   try {
+//     const response = await axios.get(url);
+//     console.log(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 const isActive = true;
 
 const Aside = styled('aside')({});
-
+const Input = styled('input')({});
 const useStyles = makeStyles({
   MainBox: {
     display: 'flex',
@@ -108,14 +112,106 @@ const useStyles = makeStyles({
     lineHeight: '130%',
     color: '#AEAEAE',
   },
+  labelIndex: {
+    position: 'absolute',
+    top: '55px',
+    marginLeft: '20px',
+    fontSize: '16px',
+  },
+  TypographyHeader: {
+    width: '86px',
+    height: '34px',
+    fontFamily: 'DM Sans',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '24px',
+    lineHeight: '140%',
+    color: '#0F1527',
+    flex: 'none',
+    order: 0,
+    flexGrow: 0,
+  },
+  TypographyText: {
+    width: '229px',
+    height: '21px',
+    fontFamily: 'DM Sans',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: '16px',
+    lineHeight: '130%',
+    color: '#AEAEAE',
+    flex: 'none',
+    order: 1,
+    flexGrow: 0,
+    marginRight: '80px',
+  },
+  BoxButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '10px 24px',
+    gap: '8px',
+    width: '144px',
+    height: '38px',
+    background: '#4CA7A8',
+    borderRadius: '6px',
+    flex: 'none',
+    order: 0,
+    flexGrow: 0,
+    marginTop: '10px',
+  },
+  ButtonAdd: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: '10px 24px',
+    alignItems: 'center',
+    width: '144px',
+    height: '38px',
+    background: '#4CA7A8',
+    borderRadius: '6px',
+    flex: 'none',
+    order: 0,
+    flexGrow: 0,
+    border: 0,
+    cursor: 'pointer',
+  },
+  ButtonAddText: {
+    width: '96px',
+    p: '2px',
+    height: '18px',
+    fontFamily: 'DM Sans',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: '12px',
+    lineHeight: '130%',
+    color: '#FFFFFF',
+    flex: 'none',
+    order: 0,
+    flexGrow: 0,
+  },
+  BoxSearch: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: '16px',
+    gap: '8px',
+    width: '460px',
+    height: '56px',
+    background: '#FAFAFA',
+    borderRadius: '12px',
+    flex: 'none',
+    // order: 1,
+    flexGrow: 0,
+    margin: '0px 10px',
+  },
 });
 
-
-
 const Home: NextPage = () => {
-  const { data, isError, isLoading } = useQuery(['location'], () =>
-    getLocation(),
-  );
+  // const { data, isError, isLoading } = useQuery(['location'], () =>
+  //   getLocation(),
+  // );
   const classes = useStyles('active');
   return (
     <Box className={styles.container}>
@@ -132,69 +228,77 @@ const Home: NextPage = () => {
       </Head>
       {/* {isLoading ? 'Loading...' : null}
       {isError ? 'Error' : null} */}
-      <header className={styles.header}>
-        <Container sx={{ m: 4.7, display: 'flex' }}>
+      <nav className={styles.nav}>
+        <Box sx={{ m: 4.7, display: 'flex' }}>
           <Box>
-            <Typography
-              sx={{
-                width: '86px',
-                height: '34px',
-                fontFamily: 'DM Sans',
-                fontStyle: 'normal',
-                fontWeight: 700,
-                fontSize: '24px',
-                lineHeight: '140%',
-                color: '#0F1527',
-                flex: 'none',
-                order: 0,
-                flexGrow: 0,
-              }}
-            >
+            <Typography className={classes.TypographyHeader}>
               Janeiro
             </Typography>
-            <Typography
-              sx={{
-                width: '229px',
-                height: '21px',
-                fontFamily: 'DM Sans',
-                fontStyle: 'normal',
-                fontWeight: 400,
-                fontSize: '16px',
-                lineHeight: '130%',
-                color: '#AEAEAE',
-                flex: 'none',
-                order: 1,
-                flexGrow: 0,
-              }}
-            >
+            <Typography className={classes.TypographyText}>
               Quinta-feira - 4 de Jan 2022
             </Typography>
           </Box>
-          <Box>
-            <Button
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                padding: '10px 24px',
-                alignItems: 'center',
-                gap: '8px',
-                width: '144px',
-                height: '38px',
-                background: '#4CA7A8',
-                borderRadius: '6px',
-                flex: 'none',
-                order: 0,
-                flexGrow: 0,
-              }}
-              variant="contained"
-              startIcon={<Add />}
-            >
-              Create Event
-            </Button>
+          <Box className={classes.BoxButton}>
+            <button className={classes.ButtonAdd}>
+              <Typography sx={{ color: 'white', padding: '5px' }}>+</Typography>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  fontFamily: 'DM Sans',
+                  fontStyle: 'normal',
+                  fontWeight: 400,
+                  fontSize: '14px',
+                  lineHeight: '130%',
+                  width: '144px',
+                }}
+              >
+                Create Event
+              </Typography>
+            </button>
           </Box>
-        </Container>
-      </header>
+          <Box className={classes.BoxSearch}>
+            <Search sx={{ color: '#AEAEAE' }} />
+            <input type="text" placeholder="Search Task, event, calendar" />
+          </Box>
+
+          <Button
+            sx={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px',
+              gap: '8px',
+              width: '56px',
+              height: '56px',
+              background: '#FAFAFA',
+              borderRadius: '12px',
+              flex: 'none',
+              flexGrow: 0,
+              marginRight: '10px',
+            }}
+            startIcon={
+              <AddAlertOutlined sx={{ color: '#aeaeae', marginLeft: '5px' }} />
+            }
+          />
+          <Button
+            sx={{
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              padding: '16px',
+              gap: '8px',
+              width: '56px',
+              height: '56px',
+              background: '#FAFAFA',
+              borderRadius: '12px',
+              flex: 'none',
+              flexGrow: 0,
+            }}
+            startIcon={
+              <PersonOutlined sx={{ color: '#aeaeae', marginLeft: '5px' }} />
+            }
+          />
+        </Box>
+      </nav>
 
       <Aside className={styles.sidebar}>
         <Container sx={{ m: '3rem' }}>
